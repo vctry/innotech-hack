@@ -51,7 +51,7 @@ export default class ButtonFile extends React.Component {
 
         return (
             <>
-                <form onSubmit={this.handleSubmit} style={{display: 'flex'}}>
+                <form onSubmit={this.handleSubmit} style={{display: 'flex', justifyContent: 'center', marginTop: 40}}>
                     <div id="file-upload">
                         <label>
                             <input type="file" name="file" id="uploade-file" onChange={this.handleImageChange} />
