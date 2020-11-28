@@ -29,7 +29,7 @@ export const Cards = ({images}) => {
 const styles = {
     wrapper: {
         display: 'flex',
-        justifyContent: 'start',
+        justifyContent: 'center',
     },
     imageWrapper: {
         width: 305,

@@ -3,8 +3,8 @@ import {NavLink} from "react-router-dom";
 
 export const Navbar = ({}) => {
     return (
-        <nav className="navbar navbar-expand-lg navbar-dark bg-primary">
-            <a className="navbar-brand" href="#">Face-recognition</a>
+        <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <NavLink className="navbar-brand" to='/'>Face-recognition</NavLink>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span className="navbar-toggler-icon" />
