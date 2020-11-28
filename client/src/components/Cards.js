@@ -1,12 +1,11 @@
 import React from 'react';
-import image from '../assets/image.jpg'
 
-export const Cards = ({}) => {
+export const Cards = ({images}) => {
     return (
         <div style={styles.wrapper}>
             <div className="card" style={{width: '50rem', marginTop: 50}}>
-                <div style={{width: 305, height: 315, padding: 5, margin: '10px auto'}}>
-                    <img src={image} className="card-img-top" alt="..."/>
+                <div style={styles.imageWrapper}>
+                    {!images.props.src ? <h2>Загрузите фото</h2> : <img src={images.props.src} className="card-img-top" alt="фото"/>}
                 </div>
                 <div className="card-body">
                     <h5 className="card-title">Card title</h5>
@@ -31,5 +30,12 @@ const styles = {
     wrapper: {
         display: 'flex',
         justifyContent: 'start',
+    },
+    imageWrapper: {
+        width: 305,
+        height: 345,
+        padding: 5,
+        margin: '10px auto',
+        overflow: 'hidden'
     }
 }

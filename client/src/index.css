@@ -11,3 +11,24 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+#file-upload input[type="file"]{
+  display: none;
+}
+
+#file-upload {
+  position: relative;
+  overflow: hidden;
+  width: 140px;
+  height: 38px;
+  color: #fff;
+  text-align: center;
+}
+
+#file-upload label {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
