@@ -1,7 +1,7 @@
 import React from 'react';
 import image from '../assets/image.jpg'
 
-export const Cards = () => {
+export const Cards = ({}) => {
     return (
         <div style={styles.wrapper}>
             <div className="card" style={{width: '50rem', marginTop: 50}}>
