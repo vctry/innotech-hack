@@ -21,6 +21,7 @@ export default class ButtonFile extends React.Component {
         })
             .then(res => res.json())
             .then(data => console.log(data))
+            .catch(e => console.log(e))
     }
 
     handleImageChange = e => {
