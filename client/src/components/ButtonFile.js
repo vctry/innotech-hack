@@ -1,12 +1,14 @@
 import React from 'react';
 import {Cards} from "./Cards";
+import ModalComponent from "./Modal";
 
 export default class ButtonFile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             file: '',
-            imagePreviewUrl: ''
+            imagePreviewUrl: '',
+            arrayLinks: []
         }
     }
 
@@ -40,9 +42,13 @@ export default class ButtonFile extends React.Component {
         reader.readAsDataURL(file)
     }
 
+    handleChangeLinks = e => {
+        this.setState({ arrayLinks: e.target.value })
+    }
+
     render() {
 
-        const {imagePreviewUrl} = this.state;
+        const {imagePreviewUrl, arrayLinks} = this.state;
         let imagePreview = null;
 
         if (imagePreviewUrl) {
@@ -50,12 +56,12 @@ export default class ButtonFile extends React.Component {
         }
 
         return (
-            <>
-                <form onSubmit={this.handleSubmit} style={{display: 'flex', justifyContent: 'center', marginTop: 40}}>
+            <div className='container'>
+                <form onSubmit={this.handleSubmit} style={{display: 'flex', justifyContent: 'space-evenly', marginTop: 40}}>
                     <div id="file-upload">
                         <label>
                             <input type="file" name="file" id="uploade-file" onChange={this.handleImageChange} />
-                                <span className='btn btn-primary'>Choose Image</span>
+                                <span className='btn btn-primary'>Выбрать изображение</span>
                         </label>
                     </div>
                     <button
@@ -63,10 +69,32 @@ export default class ButtonFile extends React.Component {
                         className='btn btn-primary'
                         onClick={this.handleSubmit}
                         style={{marginLeft: 20}}
-                    >Upload Image</button>
+                    >Загрузить изображение</button>
+                    <ModalComponent
+                        variant={'primary'}
+                        nameButton={'Выгрузить пользователей'}
+                        modalHeaderText={'Новые пользователи'}
+                        modalBodyText={
+                            <input
+                                type="text"
+                                className='form-control'
+                                placeholder='Ссылки на пользователей'
+                                value={arrayLinks}
+                                onChange={this.handleChangeLinks}
+                            />
+                        }
+                        handleClick={this.handleChangeLinks}
+                    />
                 </form>
                 <Cards images={!imagePreview ? <p>Something wrong</p> : imagePreview}/>
-            </>
+            </div>
         )
     }
 }
+
+/*
+* 'https://vk.com/id25070787',
+            'https://vk.com/fess292',
+            'https://vk.com/id368087565',
+            'https://vk.com/mdzakat'
+* */

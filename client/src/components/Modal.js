@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import {Modal, Button} from 'react-bootstrap';
 
 
-export default class Links extends Component {
+export default class ModalComponent extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,27 +14,31 @@ export default class Links extends Component {
 
     handleOpenModal = () => this.setState({ open: true });
 
+    handleSaveModal = () => {
+        this.setState({ open: false });
+    }
+
     render() {
 
         const {open} = this.state;
 
         return (
             <>
-                <Button variant="primary" onClick={this.handleOpenModal}>
-                    Launch demo modal
+                <Button variant={this.props.variant} onClick={this.handleOpenModal}>
+                    {this.props.nameButton}
                 </Button>
 
                 <Modal show={open} onHide={this.handleCloseModal}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                        <Modal.Title>{this.props.modalHeaderText}</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
+                    <Modal.Body>{this.props.modalBodyText}</Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={this.handleCloseModal}>
-                            Close
+                            Закрыть
                         </Button>
-                        <Button variant="primary" onClick={this.handleCloseModal}>
-                            Save Changes
+                        <Button variant="primary" onClick={this.props.handleClick}>
+                            Сохранить изменения
                         </Button>
                     </Modal.Footer>
                 </Modal>

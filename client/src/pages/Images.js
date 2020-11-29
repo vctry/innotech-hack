@@ -3,7 +3,7 @@ import ButtonFile from "../components/ButtonFile";
 
 export const Images = () => (
     <>
-        <h2 className='text-center'>Images</h2>
+        <h2 className='text-center'>Карточка пользователя</h2>
         <ButtonFile />
     </>
 )

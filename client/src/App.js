@@ -3,8 +3,9 @@ import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
 
 import {Navbar} from "./components/Navbar";
 import {Images} from "./pages/Images";
-import {Links} from "./pages/Links";
+import Links from "./pages/Links";
 import {Home} from "./pages/Home";
+import {Statistics} from "./pages/Statistics";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Switch>
                 <Route path='/images' component={Images}/>
                 <Route path='/links' component={Links}/>
+                <Route path='/statistics' component={Statistics} />
                 <Route path='/' component={Home}/>
             </Switch>
         </Router>
