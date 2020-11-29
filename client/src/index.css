@@ -5,11 +5,15 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #d2e9ff;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+.card, .list-group-item {
+  background-color: #f0f7f8;
 }
 
 #file-upload input[type="file"]{
@@ -18,8 +22,7 @@ code {
 
 #file-upload {
   position: relative;
-  overflow: hidden;
-  width: 140px;
+  width: 195px;
   height: 38px;
   color: #fff;
   text-align: center;
@@ -31,4 +34,8 @@ code {
   top: 0;
   left: 0;
   cursor: pointer;
+}
+.chartjs-render-monitor {
+  width: 800px !important;
+  height: 400px !important;
 }

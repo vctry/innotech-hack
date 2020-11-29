@@ -1,7 +1,10 @@
+import base64
 import pdb
 from datetime import datetime
 
 from django.shortcuts import render
+
+from recognizer import FaceRecognizer
 from .models import UserData
 
 from rest_framework.views import APIView
@@ -36,7 +39,7 @@ class ParserView(APIView):
                             birthday[1] = "0" + birthday[1]
                         birthday = ".".join(birthday)
                         birthday = datetime.strptime(birthday, "%d.%m.%Y")
-                        pdb.set_trace()
+                        # pdb.set_trace()
                         user_object = UserData(user_id=user['id'],
                                                first_name=user['first_name'],
                                                last_name=user['last_name'],
@@ -44,7 +47,18 @@ class ParserView(APIView):
                                                verified=user['verified'],
                                                birthday=birthday)
                         user_object.save()
-                return Response(data="OK")
-            return Response(data="error:user_not_found")
+                return Response(data={"status": "OK", "user": users[0]})
+            return Response(data={"status": "error:user_not_found"})
 
-        return Response(data="error:form")
+        return Response(data={"status": "error:form"})
+
+
+class Recognizer(APIView):
+    def post(self, request, format=None):
+        params = request.data
+        img_data = params.get("image")
+        with open("test.jpg", "wb") as fh:
+            fh.write(base64.decodebytes(img_data))
+        recognizer = FaceRecognizer()
+        labels = recognizer.calculate_distances("test.jpg")
+        return Response(data={"status": "OK", "label": labels})

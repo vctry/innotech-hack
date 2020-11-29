@@ -12,10 +12,7 @@ export const Navbar = ({}) => {
             <div className="collapse navbar-collapse" id="navbarNav">
                 <ul className="navbar-nav">
                     <li className="nav-item active">
-                        <NavLink className="nav-link" to='/images'>Images <span className="sr-only">(current)</span></NavLink>
-                    </li>
-                    <li className="nav-item">
-                        <NavLink className="nav-link" to='/links'>Links</NavLink>
+                        <NavLink className="nav-link" to='/images'>Карточка пользователя <span className="sr-only">(current)</span></NavLink>
                     </li>
                 </ul>
             </div>

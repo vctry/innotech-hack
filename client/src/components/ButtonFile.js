@@ -1,27 +1,50 @@
 import React from 'react';
 import {Cards} from "./Cards";
+import ModalComponent from "./Modal";
 
 export default class ButtonFile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             file: '',
-            imagePreviewUrl: ''
+            imagePreviewUrl: '',
+            arrayLinks: '',
+            data: {}
         }
     }
+
+    fetchData = (data) => {
+        fetch(`http://127.0.0.1:8000/api/parse/?user_id=25070787`)
+            .then(res => res.json())
+            .then(data => this.setState({ data: data.data.user }))
+    }
+
+
+    toDataUrl = url => {
+        const {imagePreviewUrl} = this.state;
+        const splitStr = imagePreviewUrl.split(',')[1];
+
+
+        return fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({image: splitStr}),
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/x-www-form-urlencoded'
+        })
+            .then(response => response.blob())
+            .then(blob => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            }))
+    }
+
 
     handleSubmit = e => {
         e.preventDefault();
 
-        fetch('url', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(res => res.json())
-            .then(data => console.log(data))
-            .catch(e => console.log(e))
+        this.toDataUrl(`http://127.0.0.1:8000/api/recognize/`).then(data => data)
     }
 
     handleImageChange = e => {
@@ -40,9 +63,14 @@ export default class ButtonFile extends React.Component {
         reader.readAsDataURL(file)
     }
 
+    handleChangeLinks = e => {
+        this.setState({ arrayLinks: e.target.value + " " })
+    }
+
     render() {
 
-        const {imagePreviewUrl} = this.state;
+        const {imagePreviewUrl, data, arrayLinks} = this.state;
+
         let imagePreview = null;
 
         if (imagePreviewUrl) {
@@ -50,12 +78,12 @@ export default class ButtonFile extends React.Component {
         }
 
         return (
-            <>
-                <form onSubmit={this.handleSubmit} style={{display: 'flex', justifyContent: 'center', marginTop: 40}}>
+            <div className='container'>
+                <form onSubmit={this.handleSubmit} style={{display: 'flex', justifyContent: 'space-evenly', marginTop: 40}}>
                     <div id="file-upload">
                         <label>
                             <input type="file" name="file" id="uploade-file" onChange={this.handleImageChange} />
-                                <span className='btn btn-primary'>Choose Image</span>
+                                <span className='btn btn-primary'>Выбрать изображение</span>
                         </label>
                     </div>
                     <button
@@ -63,10 +91,32 @@ export default class ButtonFile extends React.Component {
                         className='btn btn-primary'
                         onClick={this.handleSubmit}
                         style={{marginLeft: 20}}
-                    >Upload Image</button>
+                    >Загрузить изображение</button>
+                    <ModalComponent
+                        variant={'primary'}
+                        nameButton={'Выгрузить пользователей'}
+                        modalHeaderText={'Новые пользователи'}
+                        modalBodyText={
+                            <input
+                                type="text"
+                                className='form-control'
+                                placeholder='Ссылки на пользователей'
+                                value={arrayLinks}
+                                onChange={this.handleChangeLinks}
+                            />
+                        }
+                        handleClick={this.fetchData}
+                    />
                 </form>
-                <Cards images={!imagePreview ? <p>Something wrong</p> : imagePreview}/>
-            </>
+                <Cards
+                    dataName={data.first_name || 'Имя'}
+                    dataLastName={data.last_name || 'Фамилия'}
+                    idUser={data.id || 'Идентификатор не задан'}
+                    bday={data.bdate || 'Дата рождения'}
+                    imageLink={data.photo_200_orig}
+                    imageLoad={imagePreview}
+                />
+            </div>
         )
     }
 }
