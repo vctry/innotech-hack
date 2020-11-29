@@ -14,7 +14,8 @@ export default class ModalComponent extends Component {
 
     handleOpenModal = () => this.setState({ open: true });
 
-    handleSaveModal = () => {
+    handleSaveModal = (e) => {
+        e.preventDefault();
         this.setState({ open: false });
     }
 

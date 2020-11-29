@@ -14,9 +14,6 @@ export const Navbar = ({}) => {
                     <li className="nav-item active">
                         <NavLink className="nav-link" to='/images'>Карточка пользователя <span className="sr-only">(current)</span></NavLink>
                     </li>
-                    {/*<li className="nav-item">*/}
-                    {/*    <NavLink className="nav-link" to='/links'>Загрузка новых пользователей</NavLink>*/}
-                    {/*</li>*/}
                 </ul>
             </div>
         </nav>

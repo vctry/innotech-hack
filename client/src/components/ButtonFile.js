@@ -8,22 +8,43 @@ export default class ButtonFile extends React.Component {
         this.state = {
             file: '',
             imagePreviewUrl: '',
-            arrayLinks: []
+            arrayLinks: '',
+            data: {}
         }
     }
+
+    fetchData = (data) => {
+        fetch(`http://127.0.0.1:8000/api/parse/?user_id=25070787`)
+            .then(res => res.json())
+            .then(data => this.setState({ data: data.data.user }))
+    }
+
+
+    toDataUrl = url => {
+        const {imagePreviewUrl} = this.state;
+        const splitStr = imagePreviewUrl.split(',')[1];
+
+
+        return fetch(url, {
+            method: 'POST',
+            body: JSON.stringify({image: splitStr}),
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/x-www-form-urlencoded'
+        })
+            .then(response => response.blob())
+            .then(blob => new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result);
+                reader.onerror = reject;
+                reader.readAsDataURL(blob);
+            }))
+    }
+
 
     handleSubmit = e => {
         e.preventDefault();
 
-        fetch('url', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-            .then(res => res.json())
-            .then(data => console.log(data))
-            .catch(e => console.log(e))
+        this.toDataUrl(`http://127.0.0.1:8000/api/recognize/`).then(data => data)
     }
 
     handleImageChange = e => {
@@ -43,12 +64,13 @@ export default class ButtonFile extends React.Component {
     }
 
     handleChangeLinks = e => {
-        this.setState({ arrayLinks: e.target.value })
+        this.setState({ arrayLinks: e.target.value + " " })
     }
 
     render() {
 
-        const {imagePreviewUrl, arrayLinks} = this.state;
+        const {imagePreviewUrl, data, arrayLinks} = this.state;
+
         let imagePreview = null;
 
         if (imagePreviewUrl) {
@@ -83,18 +105,18 @@ export default class ButtonFile extends React.Component {
                                 onChange={this.handleChangeLinks}
                             />
                         }
-                        handleClick={this.handleChangeLinks}
+                        handleClick={this.fetchData}
                     />
                 </form>
-                <Cards images={!imagePreview ? <p>Something wrong</p> : imagePreview}/>
+                <Cards
+                    dataName={data.first_name || 'Имя'}
+                    dataLastName={data.last_name || 'Фамилия'}
+                    idUser={data.id || 'Идентификатор не задан'}
+                    bday={data.bdate || 'Дата рождения'}
+                    imageLink={data.photo_200_orig}
+                    imageLoad={imagePreview}
+                />
             </div>
         )
     }
 }
-
-/*
-* 'https://vk.com/id25070787',
-            'https://vk.com/fess292',
-            'https://vk.com/id368087565',
-            'https://vk.com/mdzakat'
-* */
