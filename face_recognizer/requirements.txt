@@ -1,0 +1,13 @@
+django~=3.0.8
+djangorestframework~=3.11.0
+djangorestframework-jsonapi
+django-cors-headers
+djoser
+psycopg2
+
+numpy==1.18.5
+pandas~=1.0.5
+plotly
+seaborn~=0.11.0
+matplotlib~=3.3.1
+statsmodels~=0.12.1
